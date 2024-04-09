@@ -1,0 +1,68 @@
+version: '3'
+
+services:
+  redis:
+    image: redis:5
+    container_name: redis
+    restart: always
+    command: redis-server --requirepass O6_ajeNLtaWL
+#    expose:
+#      - "6379"
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  mysql:
+    image: mysql:5.7
+    container_name: mysql
+    restart: always
+    ports:
+      - "3306:3306"
+    volumes:
+      - "./mysql/my.cnf:/etc/mysql/my.cnf"
+      - "./mysql/datadir:/var/lib/mysql"
+    environment:
+      MYSQL_DATABASE: archery
+      MYSQL_ROOT_PASSWORD: O6_ajeNLtaWL
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  goinception:
+    image: hanchuanchuan/goinception
+    container_name: goinception
+    restart: always
+    ports:
+      - "4000:4000"
+    volumes:
+      - "./inception/config.toml:/etc/config.toml"
+
+  archery:
+    image: sqlpara:v1.2.1
+    container_name: sqlpara
+    restart: always
+#    depends_on:
+#      redis:
+#        condition: service_healthy
+#      mysql:
+#        condition: service_healthy
+    ports:
+      - "9123:9123"
+    volumes:
+      - "./archery/settings.py:/opt/archery/local_settings.py"
+      - "./archery/soar.yaml:/etc/soar.yaml"
+      - "./archery/docs.md:/opt/archery/docs/docs.md"
+      - "./archery/downloads:/opt/archery/downloads"
+      - "./archery/sql/migrations:/opt/archery/sql/migrations"
+      - "./archery/logs:/opt/archery/logs"
+      - "./archery/keys:/opt/archery/keys"
+#    entrypoint: "bash /opt/archery/src/docker/startup.sh"
+    entrypoint: "dockerize -wait tcp://192.168.0.163:3306 -wait tcp://192.168.0.163:6379 -timeout 60s /opt/archery/src/docker/startup.sh"
+    env_file:
+      - .env
