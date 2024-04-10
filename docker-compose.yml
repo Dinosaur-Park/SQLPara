@@ -5,9 +5,7 @@ services:
     image: redis:5
     container_name: redis
     restart: always
-    command: redis-server --requirepass O6_ataWL
-#    expose:
-#      - "6379"
+    command: redis-server --requirepass 123456
     ports:
       - "6379:6379"
     healthcheck:
@@ -27,7 +25,7 @@ services:
       - "./mysql/datadir:/var/lib/mysql"
     environment:
       MYSQL_DATABASE: archery
-      MYSQL_ROOT_PASSWORD: OtaWL
+      MYSQL_ROOT_PASSWORD: 123456
     healthcheck:
       test: ["CMD", "mysqladmin", "ping"]
       interval: 5s
@@ -47,11 +45,6 @@ services:
     image: sqlpara:v1.2.1
     container_name: sqlpara
     restart: always
-#    depends_on:
-#      redis:
-#        condition: service_healthy
-#      mysql:
-#        condition: service_healthy
     ports:
       - "9123:9123"
     volumes:
