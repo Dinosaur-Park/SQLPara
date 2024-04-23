@@ -67,7 +67,7 @@ support_collation                       ="utf8mb4_general_ci"
 backup_host = "172.18.0.1"
 backup_port = 3306
 backup_user = "root"
-backup_password = "O6_ajeNLtaWL"
+backup_password = "123456"
 
 
 # 设置执行SQL时，会话变量
