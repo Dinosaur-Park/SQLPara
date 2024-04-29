@@ -42,7 +42,7 @@ services:
       - "./inception/config.toml:/etc/config.toml"
 
   archery:
-    image: sqlpara:v1.2.1
+    image: dinosaurpark/sqlpara:v1.2.8
     container_name: sqlpara
     restart: always
     ports:
