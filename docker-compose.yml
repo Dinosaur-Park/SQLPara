@@ -56,6 +56,6 @@ services:
       - "./archery/logs:/opt/archery/logs"
       - "./archery/keys:/opt/archery/keys"
 #    entrypoint: "bash /opt/archery/src/docker/startup.sh"
-    entrypoint: "dockerize -wait tcp://192.168.0.13:3306 -wait tcp://192.168.0.13:6379 -timeout 60s /opt/archery/src/docker/startup.sh"
+    entrypoint: "dockerize -wait tcp://mysql:3306 -wait tcp://redis:6379 -timeout 60s /opt/archery/src/docker/startup.sh"
     env_file:
       - .env
