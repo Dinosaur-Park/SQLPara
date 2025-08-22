@@ -23,6 +23,7 @@ services:
     command: >
       --character-set-server=utf8mb4
       --collation-server=utf8mb4_general_ci
+      --skip-character-set-client-handshake
     volumes:
       - "./mysql/my.cnf:/etc/mysql/my.cnf"
       - "./mysql/my.cnf:/etc/my.cnf"
