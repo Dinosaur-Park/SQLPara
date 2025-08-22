@@ -20,6 +20,9 @@ services:
     restart: always
     ports:
       - "3306:3306"
+    command: >
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_general_ci
     volumes:
       - "./mysql/my.cnf:/etc/mysql/my.cnf"
       - "./mysql/my.cnf:/etc/my.cnf"
